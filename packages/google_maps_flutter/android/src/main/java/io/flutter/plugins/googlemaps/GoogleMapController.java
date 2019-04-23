@@ -28,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import io.flutter.plugin.common.MethodCall;
@@ -74,6 +75,7 @@ final class GoogleMapController
   private final PolylinesController polylinesController;
   private List<Object> initialMarkers;
   private List<Object> initialPolylines;
+  private MapStyleOptions mapStyle;
 
   GoogleMapController(
       int id,
@@ -169,6 +171,7 @@ final class GoogleMapController
     polylinesController.setGoogleMap(googleMap);
     updateInitialMarkers();
     updateInitialPolylines();
+    updateMapStyle();
   }
 
   @Override
@@ -472,6 +475,14 @@ final class GoogleMapController
     }
   }
 
+  @Override
+  public void setMapStyle(MapStyleOptions mapStyle) {
+    this.mapStyle = mapStyle;
+    if (googleMap != null) {
+      updateMapStyle();
+    }
+  }
+
   private void updateInitialPolylines() {
     polylinesController.addPolylines(initialPolylines);
   }
@@ -490,6 +501,10 @@ final class GoogleMapController
       // https://github.com/flutter/flutter/issues/24327
       Log.e(TAG, "Cannot enable MyLocation layer as location permissions are not granted");
     }
+  }
+
+  private void updateMapStyle() {
+    googleMap.setMapStyle(mapStyle);
   }
 
   private boolean hasLocationPermission() {

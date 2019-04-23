@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.RoundCap;
 import com.google.android.gms.maps.model.SquareCap;
@@ -231,6 +232,10 @@ class Convert {
     return (String) o;
   }
 
+  private static MapStyleOptions toMapStyle(Object o) {
+    return new MapStyleOptions((String)o);
+  }
+
   static void interpretGoogleMapOptions(Object o, GoogleMapOptionsSink sink) {
     final Map<?, ?> data = toMap(o);
     final Object cameraTargetBounds = data.get("cameraTargetBounds");
@@ -276,6 +281,10 @@ class Convert {
     final Object myLocationEnabled = data.get("myLocationEnabled");
     if (myLocationEnabled != null) {
       sink.setMyLocationEnabled(toBoolean(myLocationEnabled));
+    }
+    final Object mapStyle = data.get("mapStyle");
+    if (mapStyle != null) {
+      sink.setMapStyle(toMapStyle(mapStyle));
     }
   }
 

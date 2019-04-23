@@ -257,6 +257,10 @@ static double ToDouble(NSNumber* data) { return [FLTGoogleMapJsonConversions toD
   _mapView.settings.myLocationButton = enabled;
 }
 
+- (void)setMapStyle:(GMSMapStyle*)mapStyle {
+  _mapView.mapStyle = mapStyle;
+}
+
 #pragma mark - GMSMapViewDelegate methods
 
 - (void)mapView:(GMSMapView*)mapView willMove:(BOOL)gesture {
@@ -368,6 +372,12 @@ static GMSMapViewType ToMapViewType(NSNumber* json) {
   return (GMSMapViewType)(value == 0 ? 5 : value);
 }
 
+static GMSMapStyle* ToMapStyle(NSString* json) {
+  NSError* error;
+  GMSMapStyle* style = [GMSMapStyle styleWithJSONString:json error:&error];
+  return style;
+}
+
 static GMSCameraUpdate* ToCameraUpdate(NSArray* data) {
   NSString* update = data[0];
   if ([update isEqualToString:@"newCameraPosition"]) {
@@ -438,5 +448,9 @@ static void InterpretMapOptions(NSDictionary* data, id<FLTGoogleMapOptionsSink> 
   NSNumber* myLocationEnabled = data[@"myLocationEnabled"];
   if (myLocationEnabled) {
     [sink setMyLocationEnabled:ToBool(myLocationEnabled)];
+  }
+  id mapStyle = data[@"mapStyle"];
+  if (mapStyle) {
+    [sink setMapStyle:ToMapStyle(mapStyle)];
   }
 }
