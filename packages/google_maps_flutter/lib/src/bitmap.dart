@@ -76,8 +76,8 @@ class BitmapDescriptor {
     return BitmapDescriptor._(<dynamic>['fromBytes', byteData]);
   }
 
-  static BitmapDescriptor fromPath(String path) {
-    return BitmapDescriptor._(<dynamic>['fromPath', path]);
+  static BitmapDescriptor fromPath(String absolutePath) {
+    return BitmapDescriptor._(<dynamic>['fromPath', absolutePath]);
   }
 
   final dynamic _json;
