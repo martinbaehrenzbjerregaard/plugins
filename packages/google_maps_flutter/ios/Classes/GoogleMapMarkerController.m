@@ -215,6 +215,20 @@ static UIImage* ExtractIcon(NSObject<FlutterPluginRegistrar>* registrar, NSArray
                                                      userInfo:nil];
       @throw exception;
     }
+  } else if ([iconData[0] isEqualToString:@"fromPath"]) {
+    if (iconData.count == 2) {
+      NSData* data = [NSData dataWithContentsOfFile:iconData[1]];
+      CGFloat scale = [UIScreen mainScreen].scale;
+      image = [UIImage imageWithData:data scale:scale];
+    } else {
+      NSString* error = [NSString
+          stringWithFormat:@"'fromPath' should have exactly 2 arguments. Got: %lu",
+                            iconData.count];
+      NSException* exception = [NSException exceptionWithName:@"InvalidByteDescriptor"
+                                                       reason:error
+                                                     userInfo:nil];
+      @throw exception;
+    }
   }
 
   return image;
