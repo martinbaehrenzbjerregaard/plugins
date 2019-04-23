@@ -5,6 +5,7 @@
 package io.flutter.plugins.googlemaps;
 
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 
 /** Receiver of GoogleMap configuration options. */
 interface GoogleMapOptionsSink {
@@ -31,4 +32,6 @@ interface GoogleMapOptionsSink {
   void setInitialMarkers(Object initialMarkers);
 
   void setInitialPolylines(Object initialPolylines);
+
+  void setMapStyle(MapStyleOptions mapStyle);
 }

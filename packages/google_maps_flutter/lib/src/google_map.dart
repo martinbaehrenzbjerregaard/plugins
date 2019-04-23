@@ -35,6 +35,7 @@ class GoogleMap extends StatefulWidget {
     this.onCameraMove,
     this.onCameraIdle,
     this.onTap,
+    this.mapStyle,
   })  : assert(initialCameraPosition != null),
         super(key: key);
 
@@ -134,6 +135,14 @@ class GoogleMap extends StatefulWidget {
   /// When this set is empty or null, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+
+  /// The styling of the base map.
+  ///
+  /// Using the style options, you can apply custom styles to features and elements
+  /// on the map. See MapStyleOptions for style definition details.
+  ///
+  /// Set to null to clear any previous custom styling.
+  final String mapStyle;
 
   @override
   State createState() => _GoogleMapState();
@@ -271,6 +280,7 @@ class _GoogleMapOptions {
     this.trackCameraPosition,
     this.zoomGesturesEnabled,
     this.myLocationEnabled,
+    this.mapStyle,
   });
 
   static _GoogleMapOptions fromWidget(GoogleMap map) {
@@ -285,6 +295,7 @@ class _GoogleMapOptions {
       trackCameraPosition: map.onCameraMove != null,
       zoomGesturesEnabled: map.zoomGesturesEnabled,
       myLocationEnabled: map.myLocationEnabled,
+      mapStyle: map.mapStyle,
     );
   }
 
@@ -308,6 +319,8 @@ class _GoogleMapOptions {
 
   final bool myLocationEnabled;
 
+  final String mapStyle;
+
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> optionsMap = <String, dynamic>{};
 
@@ -327,6 +340,7 @@ class _GoogleMapOptions {
     addIfNonNull('zoomGesturesEnabled', zoomGesturesEnabled);
     addIfNonNull('trackCameraPosition', trackCameraPosition);
     addIfNonNull('myLocationEnabled', myLocationEnabled);
+    addIfNonNull('mapStyle', mapStyle);
 
     return optionsMap;
   }
