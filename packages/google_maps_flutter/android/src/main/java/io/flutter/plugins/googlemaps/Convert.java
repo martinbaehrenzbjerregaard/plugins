@@ -60,6 +60,13 @@ class Convert {
         }
       case "fromBytes":
         return getBitmapFromBytes(data);
+      case "fromPath":
+        if (data.size() == 2) {
+          return BitmapDescriptorFactory.fromPath(toString(data.get(1)));
+        } else {
+          throw new IllegalArgumentException(
+              "'fromPath' expected exactly 2 arguments, got: " + data.size());
+        }
       default:
         throw new IllegalArgumentException("Cannot interpret " + o + " as BitmapDescriptor");
     }
